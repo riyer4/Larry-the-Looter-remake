@@ -18,6 +18,13 @@ class Menu extends Phaser.Scene {
         this.load.image('creditsMain', './assets/png/credits_main.png')
         this.load.image('controlsMain', './assets/png/controls_main.png')
 
+
+    // for other scenes
+
+        // button image
+
+        this.load.image('button', './assets/png/button.png')
+
     // for game
 
         // movement
