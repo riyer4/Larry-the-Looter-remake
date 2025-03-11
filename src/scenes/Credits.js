@@ -37,7 +37,7 @@ class Credits extends Phaser.Scene {
 
         this.button.setInteractive()
 
-        this.button.on('pointerup', () => {
+        this.button.on('pointerup', () => { //i found out how to do this through google
             window.open('https://www.youtube.com/watch?v=Apne-itN6gE&ab_channel=eexot')
         })
 

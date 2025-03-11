@@ -128,8 +128,8 @@ class Menu extends Phaser.Scene {
 
         // highscore
 
-        this.highscore = 0
-        let highscoreConfig = {
+        this.stolen_highscore = 0
+        let stolen_highscoreConfig = {
             fontFamily: 'Courier',
             fontSize: '18px',
             color: '#fff',
@@ -143,7 +143,7 @@ class Menu extends Phaser.Scene {
 
             fixedWidth: 200
         }
-        this.highscoreLeft = this.add.text(2, 453, `Highscore: ${this.highscore}`, highscoreConfig)
+        this.stolen_highscoreLeft = this.add.text(2, 453, `Highscore: ${this.stolen_highscore}`, stolen_highscoreConfig)
 
 
         //keys
@@ -171,10 +171,10 @@ class Menu extends Phaser.Scene {
 
         // hs mods 
 
-        this.highscoreLeft.text = `Highscore: ${localStorage.getItem('highscore')}` 
+        this.stolen_highscoreLeft.text = `Highscore: ${localStorage.getItem('stolen_highscore')}` 
         {
-            if (this.p1Score > localStorage.getItem('highscore')) {
-            localStorage.setItem('highscore', this.p1Score)
+            if (this.p1Score > localStorage.getItem('stolen_highscore')) {
+            localStorage.setItem('stolen_highscore', this.p1Score)
             }  
         }
 
