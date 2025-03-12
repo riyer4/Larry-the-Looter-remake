@@ -16,10 +16,17 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
         keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        
+        
+        this.brokenWindow = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
 
-        this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setScale(2.5).setInteractive()
+        this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(0).setInteractive()
+        this.tv = this.add.sprite(game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0).setDepth(0).setInteractive()
 
-        this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6)
+
+        this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
+
+        this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6).setDepth(2)
 
 
         //this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
@@ -40,16 +47,9 @@ class Play extends Phaser.Scene {
         // stealing game mechanics
 
         if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
-            this.window.setTexture('brokenWindow')
-            this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(3).setInteractive()
-            this.tv = this.add.sprite(game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0).setDepth(3).setInteractive()
-            this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(3).setInteractive()
-
+            this.window.alpha = 0
             
-            if (Phaser.Input.Keyboard.JustDown(keySTEAL)) {
-                this.stereo.alpha = 0
-                this.p1Score += 100
-            }
+            
 
         }
 
