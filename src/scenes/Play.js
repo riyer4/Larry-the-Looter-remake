@@ -49,8 +49,11 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
             this.window.alpha = 0
             
-            
+        }
 
+        if (this.window.alpha == 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+
+            this.stereo.alpha = 0
         }
 
         
