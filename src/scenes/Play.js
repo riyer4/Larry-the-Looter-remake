@@ -6,6 +6,8 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        this.p1Score = 0
+
         this.level1 = this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(5)
 
         this.cameras.main.setBackgroundColor(0x000000)
@@ -13,8 +15,12 @@ class Play extends Phaser.Scene {
     
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+        keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
 
-        this.player = new Player(this, 0, 330, 'larryIdle', 0).setOrigin(0, 0)
+        this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setScale(2.5).setInteractive()
+
+        this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6)
+
 
         //this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
 
@@ -31,20 +37,35 @@ class Play extends Phaser.Scene {
 
         this.player.update()
 
+        // stealing game mechanics
+
+        if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+            this.window.setTexture('brokenWindow')
+            this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(3).setInteractive()
+            this.tv = this.add.sprite(game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0).setDepth(3).setInteractive()
+            this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(3).setInteractive()
+
+            
+            if (Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+                this.stereo.alpha = 0
+                this.p1Score += 100
+            }
+
+        }
+
+        
 
     }
 
-    // checkCollision(rocket, ship) {
+    checkCollision(player, item) {
 
-    //     //simple AABB (?) checking
-
-    //     if (rocket.x < ship.x + ship.width && 
-    //         rocket.x + rocket.width > ship.x && 
-    //         rocket.y < ship.y + ship.height && 
-    //         rocket.height + rocket.y > ship.y) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
+        if (player.x < item.x + item.width && 
+            player.x + player.width > item.x && 
+            player.y < item.y + item.height && 
+            player.height + player.y > item.y) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
