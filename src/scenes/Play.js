@@ -28,11 +28,13 @@ class Play extends Phaser.Scene {
 
         this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6).setDepth(2)
 
+  
+
 
         //this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
 
-         //this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
-         //this.cameras.main.startFollow(this.player, true, 0.25, 0.25)
+         this.cameras.main.setBounds(0, 0, this.level1.widthInPixels, this.level1.heightInPixels)
+         this.cameras.main.startFollow(this.player, true, 0.25, 0.25)
 
          //this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
  

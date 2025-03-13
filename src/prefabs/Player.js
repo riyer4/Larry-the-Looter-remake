@@ -4,6 +4,11 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // add object to existing scene
         scene.add.existing(this)
+        scene.physics.add.existing(this)
+
+        this.body.setSize(100, 100)
+        this.body.setCollideWorldBounds(true)
+
         this.moveSpeed = 2
 
     }
