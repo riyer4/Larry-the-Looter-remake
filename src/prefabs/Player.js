@@ -15,28 +15,12 @@ class Player extends Phaser.GameObjects.Sprite {
 
     create() {
 
-        this.anims.create({
-            key: 'larry_run',
-            frames: [
-                { key: 'larryIdle' },
-                { key: 'larryRun1' },
-                { key: 'larryRun2' },
-            ],//pp
-            frameRate: 2, 
-            repeat: -1
-        })
+
     }
 
     update() {
 
         
-        //l/r movement
-
-        if(keyLEFT.isDown) {
-            this.x -= this.moveSpeed
-        } else if(keyRIGHT.isDown) {
-            this.x += this.moveSpeed
-        }
     }
 
     reset() {

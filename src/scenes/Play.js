@@ -34,15 +34,48 @@ class Play extends Phaser.Scene {
         //this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
 
          this.cameras.main.setBounds(0, 0, this.level1.widthInPixels, this.level1.heightInPixels)
-         this.cameras.main.startFollow(this.player, true, 0.25, 0.25)
+         this.cameras.main.startFollow(this.player, false, 1, 1)
 
-         //this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
+         this.physics.world.setBounds(0, 0, this.level1.widthInPixels, this.level1.heightInPixels)
  
+
+         //animation
+
+         this.anims.create({
+            key: 'larry_run',
+            frames: [
+                { key: 'larryIdle' },
+                { key: 'larryRun1' },
+                { key: 'larryIdle' },
+                { key: 'larryRun2' },
+            ],
+            frameRate: 5, 
+            repeat: -1
+        })
  
+        this.player.on('animationcomplete', () => {
+            this.player.setTexture('larryIdle')
+        })
+
 
     }
 
     update() {
+
+
+        //l/r movement
+
+        if(keyLEFT.isDown) {
+            this.player.x -= this.player.moveSpeed
+        } else if(keyRIGHT.isDown) {
+            this.player.x += this.player.moveSpeed
+            this.player.anims.play('larry_run', true)
+
+        } else {
+            this.player.anims.stop()
+            this.player.setTexture('larryIdle')
+
+        }
 
         this.player.update()
 
