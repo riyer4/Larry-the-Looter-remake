@@ -26,6 +26,9 @@ class Play extends Phaser.Scene {
 
         this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
 
+        this.window2 = this.add.sprite(game.config.width/2 + 770, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
+
+
         this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6).setDepth(2)
 
   
@@ -49,7 +52,7 @@ class Play extends Phaser.Scene {
                 { key: 'larryIdle' },
                 { key: 'larryRun2' },
             ],
-            frameRate: 5, 
+            frameRate: 6, 
             repeat: -1
         })
  
@@ -67,6 +70,8 @@ class Play extends Phaser.Scene {
 
         if(keyLEFT.isDown) {
             this.player.x -= this.player.moveSpeed
+            this.player.anims.stop()
+            this.player.setTexture('larryIdle')
         } else if(keyRIGHT.isDown) {
             this.player.x += this.player.moveSpeed
             this.player.anims.play('larry_run', true)
