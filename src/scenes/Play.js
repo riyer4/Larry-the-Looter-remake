@@ -125,9 +125,9 @@ class Play extends Phaser.Scene {
 
         this.gameTime = this.game.settings.gameTimer // writing down initial time
 
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5)
+        this.clock = this.time.delayedCall(50000, () => {
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5).setDepth(4)
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5).setDepth(4)
             this.gameOver = true
 
         }, null, this)
@@ -156,6 +156,11 @@ class Play extends Phaser.Scene {
         } else {
             this.gameTime -= 8.25 // subtracting 1 second per frame
         }
+
+        if (this.gameTime === 0) {
+            this.gameOver = true
+        }
+
         this.timeLeft.text = `Time: ${Math.floor(this.gameTime / 1000)}`
 
 
