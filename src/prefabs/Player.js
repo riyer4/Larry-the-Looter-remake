@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setSize(130, 120)
         this.body.setCollideWorldBounds(true)
 
-        this.moveSpeed = 2
+        this.moveSpeed = 6
 
     }
 

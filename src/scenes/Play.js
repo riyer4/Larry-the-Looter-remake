@@ -11,12 +11,6 @@ class Play extends Phaser.Scene {
         this.level1 = this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(5)
 
         this.cameras.main.setBackgroundColor(0x000000)
-
-    
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-        keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-        
         
         this.brokenWindow = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
 
@@ -36,12 +30,11 @@ class Play extends Phaser.Scene {
 
         //this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
 
-         this.cameras.main.setBounds(0, 0, this.level1.widthInPixels, this.level1.heightInPixels)
+         this.cameras.main.setBounds(0, 0, 3200, this.level1.heightInPixels)
          this.cameras.main.startFollow(this.player, false, 1, 1)
 
          this.physics.world.setBounds(0, 0, this.level1.widthInPixels, this.level1.heightInPixels)
  
-
          //animation
 
          this.anims.create({
@@ -61,6 +54,13 @@ class Play extends Phaser.Scene {
         })
 
 
+        //keys 
+
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+        keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        
+
     }
 
     update() {
@@ -75,14 +75,16 @@ class Play extends Phaser.Scene {
         } else if(keyRIGHT.isDown) {
             this.player.x += this.player.moveSpeed
             this.player.anims.play('larry_run', true)
-
         } else {
             this.player.anims.stop()
             this.player.setTexture('larryIdle')
 
         }
 
-        this.player.update()
+        // world bounds
+
+
+        this.player.x = Phaser.Math.Clamp(this.player.x, 0, 3120 - this.player.width)
 
         // stealing game mechanics
 
@@ -95,8 +97,7 @@ class Play extends Phaser.Scene {
 
             this.stereo.alpha = 0
         }
-
-        
+ 
 
     }
 
