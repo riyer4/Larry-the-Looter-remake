@@ -14,8 +14,8 @@ class Play extends Phaser.Scene {
         
         this.brokenWindow = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
 
-        this.stereo = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0).setDepth(0).setInteractive()
-        this.tv = this.add.sprite(game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0).setDepth(0).setInteractive()
+        this.stereo = new Loot(this, game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(0).setInteractive()
+        this.tv = new Loot(this, game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
 
 
         this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
@@ -54,16 +54,109 @@ class Play extends Phaser.Scene {
         })
 
 
+        //hs 
+
+        this.stolen_highscore = 0
+        let stolen_highscoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            backgroundColor: '#000',
+            color: '#fff',
+            allig: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+
+            fixedWidth: 200
+        }
+
+        this.stolen_highscoreLeft = this.add.text(borderUISize - borderPadding*2, borderUISize*7 + borderPadding*20, `Highscore: ${this.stolen_highscore}`, stolen_highscoreConfig)
+
+        this.stolen_highscoreLeft.setScrollFactor(0)
+
+        //score 
+
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            allig: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+
+            fixedWidth: 100
+        }
+
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+
+        this.scoreLeft.setScrollFactor(0)
+
+
         //keys 
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-        keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-        
+        keyINTERACT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
+        keyDODGE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+
+        // time
+
+        let timeConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            allig: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+
+            fixedWidth: 135
+        }
+
+
+        this.gameOver = false
+
+        this.gameTime = this.game.settings.gameTimer // writing down initial time
+
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5)
+            this.gameOver = true
+
+        }, null, this)
+
+        this.timeLeft = this.add.text(borderUISize + borderPadding*40, borderUISize + borderPadding*2, `Time: ${this.gameTime}`, timeConfig)
+
+        this.timeLeft.setScrollFactor(0)
+
 
     }
 
     update() {
+
+        // hs mods
+
+        this.stolen_highscoreLeft.text = `Highscore: ${localStorage.getItem('stolen_highscore')}` 
+        {
+            if (this.p1Score > localStorage.getItem('stolen_highscore')) {
+            localStorage.setItem('stolen_highscore', this.p1Score)
+            }  
+        }
+
+        //timer mods
+        if (this.gameOver) {
+            this.gameTime = 0
+        } else {
+            this.gameTime -= 8.25 // subtracting 1 second per frame
+        }
+        this.timeLeft.text = `Time: ${Math.floor(this.gameTime / 1000)}`
 
 
         //l/r movement
@@ -84,18 +177,21 @@ class Play extends Phaser.Scene {
         // world bounds
 
 
-        this.player.x = Phaser.Math.Clamp(this.player.x, 0, 3120 - this.player.width)
+        this.player.x = Phaser.Math.Clamp(this.player.x, 0, 3120 - this.player.width) //learned this online 
 
         // stealing game mechanics
 
-        if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+        if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keyINTERACT)) {
             this.window.alpha = 0
             
         }
 
-        if (this.window.alpha == 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+        if (this.window.alpha == 0 && this.stereo.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+            this.moreBooty(this.stereo)
+        }
 
-            this.stereo.alpha = 0
+        if (this.window.alpha == 0 && this.tv.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+            this.moreBooty(this.tv)
         }
  
 
@@ -111,5 +207,17 @@ class Play extends Phaser.Scene {
         } else {
             return false
         }
+    }
+
+    moreBooty(loot) {
+
+        loot.alpha = 0
+
+        //score stuff
+
+        this.p1Score += loot.points
+        this.scoreLeft.text = this.p1Score
+
+        loot.destroy()
     }
 }
