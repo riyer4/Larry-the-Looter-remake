@@ -56,12 +56,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('powerup', './assets/audio/powerup.mp3')
         this.load.audio('select', './assets/audio/select.mp3')
         this.load.audio('dead', './assets/audio/dead.wav')
-
-
-    
-
-
-
+        this.load.audio('glass', './assets/audio/glass.mp3')
 
 
     

@@ -8,22 +8,24 @@ class Play extends Phaser.Scene {
 
         this.p1Score = 0
 
-        this.level1 = this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(5)
+        this.level1 = this.add.image(0, 0, 'bg').setOrigin(0, 0).setScale(7.5)
 
         this.cameras.main.setBackgroundColor(0x000000)
         
-        this.brokenWindow = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
+        this.brokenWindow = this.add.sprite(game.config.width/2 + 250, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
+
+        this.brokenWindow2 = this.add.sprite(game.config.width/2 + 610, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(1).setScale(2.5).setInteractive()
 
         this.stereo = new Loot(this, game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(0).setInteractive()
         this.tv = new Loot(this, game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
 
 
-        this.window = this.add.sprite(game.config.width/2 + 70, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
+        this.window = this.add.sprite(game.config.width/2 + 250, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
 
-        this.window2 = this.add.sprite(game.config.width/2 + 770, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
+        this.window2 = this.add.sprite(game.config.width/2 + 610, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
 
 
-        this.player = new Player(this, 0, 240, 'larryIdle', 0).setOrigin(0, 0).setScale(1.6).setDepth(2)
+        this.player = new Player(this, 0, 180, 'larryIdle', 0).setOrigin(0, 0).setScale(2.3).setDepth(2)
 
   
 
@@ -187,7 +189,16 @@ class Play extends Phaser.Scene {
         // stealing game mechanics
 
         if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keyINTERACT)) {
+            
+            this.sound.play('glass')
             this.window.alpha = 0
+        }
+
+        
+        if (this.checkCollision(this.player, this.window2) && Phaser.Input.Keyboard.JustDown(keyINTERACT)) {
+            
+            this.sound.play('glass')
+            this.window2.alpha = 0
             
         }
 
