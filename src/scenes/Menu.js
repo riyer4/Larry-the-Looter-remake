@@ -75,7 +75,7 @@ class Menu extends Phaser.Scene {
                 { key: 'larryMain' },
                 { key: 'larryMainRun' }
             ],
-            frameRate: 2, 
+            frameRate: 3, 
             repeat: -1
         });
 
