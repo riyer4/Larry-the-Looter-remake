@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor(0x000000)
         
-        this.brokenWindow = this.add.sprite(game.config.width/2 + 250, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
+        this.brokenWindow = this.add.sprite(game.config.width/2 + 245, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(0).setScale(2.5)
 
         this.brokenWindow2 = this.add.sprite(game.config.width/2 + 610, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(1).setScale(2.5).setInteractive()
 
@@ -20,12 +20,12 @@ class Play extends Phaser.Scene {
         this.tv = new Loot(this, game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
 
 
-        this.window = this.add.sprite(game.config.width/2 + 250, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
+        this.window = this.add.sprite(game.config.width/2 + 245, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
 
         this.window2 = this.add.sprite(game.config.width/2 + 610, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
 
 
-        this.player = new Player(this, 0, 180, 'larryIdle', 0).setOrigin(0, 0).setScale(2.3).setDepth(2)
+        this.player = new Player(this, 0, 180, 'larryIdle', 0).setOrigin(0, 0).setScale(2.2).setDepth(2)
 
   
 
@@ -61,19 +61,20 @@ class Play extends Phaser.Scene {
         this.stolen_highscore = 0
         let stolen_highscoreConfig = {
             fontFamily: 'Courier',
-            fontSize: '20px',
-            backgroundColor: '#000',
+            fontSize: '18px',
             color: '#fff',
+            backgroundColor: '#c700b5',
             allig: 'right',
             padding: {
                 top: 5,
                 bottom: 5,
+                left: 5
             },
 
             fixedWidth: 200
         }
 
-        this.stolen_highscoreLeft = this.add.text(borderUISize - borderPadding*2, borderUISize*7 + borderPadding*20, `Highscore: ${this.stolen_highscore}`, stolen_highscoreConfig)
+        this.stolen_highscoreLeft = this.add.text(2, 453, `Highscore: ${this.stolen_highscore}`, stolen_highscoreConfig)
 
         this.stolen_highscoreLeft.setScrollFactor(0)
 
@@ -82,8 +83,8 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#ffd900',
+            color: '#000',
             allig: 'right',
             padding: {
                 top: 5,
@@ -93,7 +94,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig)
+        this.scoreLeft = this.add.text(2, 3, this.p1Score, scoreConfig)
 
         this.scoreLeft.setScrollFactor(0)
 
@@ -111,8 +112,8 @@ class Play extends Phaser.Scene {
         let timeConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            backgroundColor: '#ffd900',
+            color: '#000',
             allig: 'right',
             padding: {
                 top: 5,
@@ -128,13 +129,13 @@ class Play extends Phaser.Scene {
         this.gameTime = this.game.settings.gameTimer // writing down initial time
 
         this.clock = this.time.delayedCall(50000, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5).setDepth(4)
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5).setDepth(4)
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5).setDepth(4).setScrollFactor(0)
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5).setDepth(4).setScrollFactor(0)
             this.gameOver = true
 
         }, null, this)
 
-        this.timeLeft = this.add.text(borderUISize + borderPadding*40, borderUISize + borderPadding*2, `Time: ${this.gameTime}`, timeConfig)
+        this.timeLeft = this.add.text(502, 3, `Time: ${this.gameTime}`, timeConfig)
 
         this.timeLeft.setScrollFactor(0)
 
@@ -155,12 +156,16 @@ class Play extends Phaser.Scene {
         //timer mods
         if (this.gameOver) {
             this.gameTime = 0
+            this.player.moveSpeed = 0
+            this.player.setTexture('larryIdle')
         } else {
             this.gameTime -= 8.25 // subtracting 1 second per frame
         }
 
         if (this.gameTime === 0) {
             this.gameOver = true
+            this.player.moveSpeed = 0
+            this.player.setTexture('larryIdle')
         }
 
         this.timeLeft.text = `Time: ${Math.floor(this.gameTime / 1000)}`
@@ -184,7 +189,7 @@ class Play extends Phaser.Scene {
         // world bounds
 
 
-        this.player.x = Phaser.Math.Clamp(this.player.x, 0, 3120 - this.player.width) //learned this online 
+        this.player.x = Phaser.Math.Clamp(this.player.x, 0, 2230 - this.player.width) //learned this online 
 
         // stealing game mechanics
 
