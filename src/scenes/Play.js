@@ -18,7 +18,8 @@ class Play extends Phaser.Scene {
 
         this.stereo = new Loot(this, game.config.width/2 + 150, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(0).setInteractive()
         this.tv = new Loot(this, game.config.width/2 + 270, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
-        this.tv2 = new Loot(this, game.config.width/2 + 670, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
+        this.tv2 = new Loot(this, game.config.width/2 + 670, game.config.height/2 - 50, 'tv', 0, 200).setDepth(1).setInteractive()
+        this.stereo2 = new Loot(this, game.config.width/2 + 550, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(1).setInteractive()
 
 
         this.window = this.add.sprite(game.config.width/2 + 245, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
@@ -143,9 +144,7 @@ class Play extends Phaser.Scene {
 
         this.gameTime = this.game.settings.gameTimer // writing down initial time
 
-        this.clock = this.time.delayedCall(50000, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5).setDepth(4).setScrollFactor(0)
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'lmao', scoreConfig).setOrigin(0.5).setDepth(4).setScrollFactor(0)
+        this.clock = this.time.delayedCall(27000, () => {
             this.gameOver = true
 
         }, null, this)
@@ -173,6 +172,7 @@ class Play extends Phaser.Scene {
             this.gameTime = 0
             this.player.moveSpeed = 0
             this.player.setTexture('larryIdle')
+            this.scene.start('endScene', {finalScore: this.p1Score})
         } else {
             this.gameTime -= 8.25 // subtracting 1 second per frame
         }
@@ -235,6 +235,17 @@ class Play extends Phaser.Scene {
 
         if (this.window.alpha == 0 && this.tv.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
             this.moreBooty(this.tv)
+            this.player.stealItem()
+        }
+
+        
+        if (this.window2.alpha == 0 && this.stereo2.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
+            this.moreBooty(this.stereo2)
+            this.player.stealItem()
+        }
+
+        if (this.window2.alpha == 0 && this.tv2.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
+            this.moreBooty(this.tv2)
             this.player.stealItem()
         }
  

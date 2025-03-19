@@ -31,8 +31,8 @@ class Controls extends Phaser.Scene {
         controlsConfig.backgroundColor = ''
 
         this.add.text(320, 180, 'Press the <-> arrows to move', controlsConfig).setOrigin(0.5)
-        this.add.text(320, 230, '[E] to interact with objects', controlsConfig).setOrigin(0.5)
-        this.add.text(320, 280, '[C] to collect items', controlsConfig).setOrigin(0.5)
+        this.add.text(320, 230, '^ arrow + [E] to interact with objects', controlsConfig).setOrigin(0.5)
+        this.add.text(320, 280, '^ arrow + [C] to collect items', controlsConfig).setOrigin(0.5)
         this.add.text(320, 330, '[D] to dodge', controlsConfig).setOrigin(0.5)
 
 

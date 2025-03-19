@@ -2,7 +2,15 @@
 // Larry the Looter (from the Simpsons)\
 // Link for the original video:
 // https://www.youtube.com/watch?v=Apne-itN6gE&ab_channel=ThEwAvEsHaPa
-// Total Time Taken: 20 hrs
+// Total Time Taken: 40 hrs
+// Five phaser components:
+// - physics systems
+// - cameras
+// - text objects
+// - animation manager
+// - timers
+// Creativity Factor
+//  - the original didn't have a dodging function, so I implemented it so that there could be a "happy" ending for this thief
 // Sources:
 // main audio sources came from pixabay
 // new loop function sourced from phaser documentation

@@ -184,7 +184,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySTART)) {
 
             game.settings = {
-                gameTimer: 60000
+                gameTimer: 30000
             }
             
             this.sound.play('select')
