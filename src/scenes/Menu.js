@@ -33,6 +33,9 @@ class Menu extends Phaser.Scene {
         this.load.image('larryRun', './assets/png/larry_run.png')
         this.load.image('larryRun1', './assets/png/larry_run1.png')
         this.load.image('larryRun2', './assets/png/larry_run2.png')
+        this.load.image('larrySteal', './assets/png/larry_steal.png')
+        this.load.image('larrySteal2', './assets/png/larry_steal2.png')
+
 
         //interaction items
 

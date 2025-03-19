@@ -10,11 +10,14 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setCollideWorldBounds(true)
 
         this.moveSpeed = 6
+        this.hasStolen = false
 
     }
 
-    create() {
-
+    stealItem() {
+        if (!this.hasStolen){
+            this.hasStolen = true
+        }
 
     }
 

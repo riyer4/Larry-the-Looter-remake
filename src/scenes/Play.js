@@ -16,8 +16,9 @@ class Play extends Phaser.Scene {
 
         this.brokenWindow2 = this.add.sprite(game.config.width/2 + 610, game.config.height/2 - 50, 'brokenWindow', 0).setDepth(1).setScale(2.5).setInteractive()
 
-        this.stereo = new Loot(this, game.config.width/2 + 70, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(0).setInteractive()
-        this.tv = new Loot(this, game.config.width/2 - 30, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
+        this.stereo = new Loot(this, game.config.width/2 + 150, game.config.height/2 - 50, 'stereo', 0, 100).setDepth(0).setInteractive()
+        this.tv = new Loot(this, game.config.width/2 + 270, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
+        this.tv2 = new Loot(this, game.config.width/2 + 670, game.config.height/2 - 50, 'tv', 0, 200).setDepth(0).setInteractive()
 
 
         this.window = this.add.sprite(game.config.width/2 + 245, game.config.height/2 - 50, 'window', 0).setDepth(1).setScale(2.5).setInteractive()
@@ -53,6 +54,19 @@ class Play extends Phaser.Scene {
  
         this.player.on('animationcomplete', () => {
             this.player.setTexture('larryIdle')
+        })
+
+        this.anims.create({
+            key: 'larry_steals',
+            frames: [
+                { key: 'larrySteal' },
+                { key: 'larrySteal2' },
+            ],
+            frameRate: 6, 
+        })
+ 
+        this.player.on('animationcomplete', () => {
+            this.player.setTexture('larrySteal2')
         })
 
 
@@ -106,6 +120,7 @@ class Play extends Phaser.Scene {
         keyINTERACT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
         keySTEAL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
         keyDODGE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+        keyFACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
 
         // time
 
@@ -180,6 +195,12 @@ class Play extends Phaser.Scene {
         } else if(keyRIGHT.isDown) {
             this.player.x += this.player.moveSpeed
             this.player.anims.play('larry_run', true)
+        } else if (keyFACE.isDown) {
+            if (!this.player.hasStolen) {
+                this.player.setTexture('larrySteal')
+            } else {
+                this.player.setTexture('larrySteal2')
+            }       
         } else {
             this.player.anims.stop()
             this.player.setTexture('larryIdle')
@@ -193,26 +214,28 @@ class Play extends Phaser.Scene {
 
         // stealing game mechanics
 
-        if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keyINTERACT)) {
+        if (this.checkCollision(this.player, this.window) && Phaser.Input.Keyboard.JustDown(keyINTERACT) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
             
             this.sound.play('glass')
             this.window.alpha = 0
         }
 
         
-        if (this.checkCollision(this.player, this.window2) && Phaser.Input.Keyboard.JustDown(keyINTERACT)) {
+        if (this.checkCollision(this.player, this.window2) && Phaser.Input.Keyboard.JustDown(keyINTERACT) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
             
             this.sound.play('glass')
             this.window2.alpha = 0
             
         }
 
-        if (this.window.alpha == 0 && this.stereo.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+        if (this.window.alpha == 0 && this.stereo.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
             this.moreBooty(this.stereo)
+            this.player.stealItem()
         }
 
-        if (this.window.alpha == 0 && this.tv.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL)) {
+        if (this.window.alpha == 0 && this.tv.alpha > 0 && Phaser.Input.Keyboard.JustDown(keySTEAL) && Phaser.Input.Keyboard.JustDown(keyFACE)) {
             this.moreBooty(this.tv)
+            this.player.stealItem()
         }
  
 
