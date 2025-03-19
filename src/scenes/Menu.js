@@ -49,6 +49,10 @@ class Menu extends Phaser.Scene {
 
         this.load.image('bg', './assets/png/bg.png')
 
+    //end
+
+        this.load.image('end', './assets/png/end.png')
+
 
 
     //audio!!
